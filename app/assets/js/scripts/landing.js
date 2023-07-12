@@ -244,7 +244,7 @@ const refreshServerStatus = async (fade = false) => {
     const serv = (await DistroAPI.getDistribution()).getServerById(ConfigManager.getSelectedServer())
 
     let pLabel = 'SERVEUR'
-    let pVal = 'Déconneter'
+    let pVal = 'Offline'
 
     try {
 
@@ -740,7 +740,7 @@ let newsLoadingListener = null
  */
 function setNewsLoading(val){
     if(val){
-        const nLStr = 'Checking for News'
+        const nLStr = 'Vérification des actualitées'
         let dotStr = '..'
         nELoadSpan.innerHTML = nLStr + dotStr
         newsLoadingListener = setInterval(() => {
