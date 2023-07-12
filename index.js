@@ -29,19 +29,19 @@ function initAutoUpdater(event, data) {
     if(process.platform === 'darwin'){
         autoUpdater.autoDownload = false
     }
-    autoUpdater.on('update-available', (info) => {
+    autoUpdater.on('Mise à jour disponible', (info) => {
         event.sender.send('autoUpdateNotification', 'update-available', info)
     })
-    autoUpdater.on('update-downloaded', (info) => {
+    autoUpdater.on('mise à jour telechargé', (info) => {
         event.sender.send('autoUpdateNotification', 'update-downloaded', info)
     })
-    autoUpdater.on('update-not-available', (info) => {
+    autoUpdater.on('pas de mise à jour disponible', (info) => {
         event.sender.send('autoUpdateNotification', 'update-not-available', info)
     })
-    autoUpdater.on('checking-for-update', () => {
+    autoUpdater.on('vérification de mise à jour', () => {
         event.sender.send('autoUpdateNotification', 'checking-for-update')
     })
-    autoUpdater.on('error', (err) => {
+    autoUpdater.on('erreur', (err) => {
         event.sender.send('autoUpdateNotification', 'realerror', err)
     }) 
 }
@@ -54,7 +54,7 @@ ipcMain.on('autoUpdateAction', (event, arg, data) => {
             initAutoUpdater(event, data)
             event.sender.send('autoUpdateNotification', 'ready')
             break
-        case 'checkForUpdate':
+        case 'vérifier les mise à jour':
             autoUpdater.checkForUpdates()
                 .catch(err => {
                     event.sender.send('autoUpdateNotification', 'realerror', err)
@@ -72,11 +72,11 @@ ipcMain.on('autoUpdateAction', (event, arg, data) => {
                 autoUpdater.allowPrerelease = data
             }
             break
-        case 'installUpdateNow':
+        case 'installer la mise à jour':
             autoUpdater.quitAndInstall()
             break
         default:
-            console.log('Unknown argument', arg)
+            console.log('argument inconnu', arg)
             break
     }
 })
@@ -129,11 +129,11 @@ ipcMain.on(MSFT_OPCODE.OPEN_LOGIN, (ipcEvent, ...arguments_) => {
         icon: getPlatformIcon('SealCircle')
     })
 
-    msftAuthWindow.on('closed', () => {
+    msftAuthWindow.on('fermer', () => {
         msftAuthWindow = undefined
     })
 
-    msftAuthWindow.on('close', () => {
+    msftAuthWindow.on('fermer', () => {
         if(!msftAuthSuccess) {
             ipcEvent.reply(MSFT_OPCODE.REPLY_LOGIN, MSFT_REPLY_TYPE.ERROR, MSFT_ERROR.NOT_FINISHED, msftAuthViewOnClose)
         }
@@ -174,7 +174,7 @@ ipcMain.on(MSFT_OPCODE.OPEN_LOGOUT, (ipcEvent, uuid, isLastAccount) => {
     msftLogoutSuccess = false
     msftLogoutSuccessSent = false
     msftLogoutWindow = new BrowserWindow({
-        title: 'Microsoft Logout',
+        title: 'se déconecter de Microsoft',
         backgroundColor: '#222222',
         width: 520,
         height: 600,
@@ -182,11 +182,11 @@ ipcMain.on(MSFT_OPCODE.OPEN_LOGOUT, (ipcEvent, uuid, isLastAccount) => {
         icon: getPlatformIcon('SealCircle')
     })
 
-    msftLogoutWindow.on('closed', () => {
+    msftLogoutWindow.on('fermer', () => {
         msftLogoutWindow = undefined
     })
 
-    msftLogoutWindow.on('close', () => {
+    msftLogoutWindow.on('fermer', () => {
         if(!msftLogoutSuccess) {
             ipcEvent.reply(MSFT_OPCODE.REPLY_LOGOUT, MSFT_REPLY_TYPE.ERROR, MSFT_ERROR.NOT_FINISHED)
         } else if(!msftLogoutSuccessSent) {
