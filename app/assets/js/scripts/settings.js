@@ -374,8 +374,8 @@ ipcRenderer.on(MSFT_OPCODE.REPLY_LOGIN, (_, ...arguments_) => {
 
             // Unexpected error.
             setOverlayContent(
-                'Something Went Wrong',
-                'Microsoft authentication failed. Please try again.',
+                'Quelque chose s est mal passé',
+                'L authentification Microsoft a échoué. Veuillez réessayer.',
                 'OK'
             )
             setOverlayHandler(() => {
@@ -394,7 +394,7 @@ ipcRenderer.on(MSFT_OPCODE.REPLY_LOGIN, (_, ...arguments_) => {
                 // This is probably if you messed up the app registration with Azure.      
                 let error = queryMap.error // Error might be 'access_denied' ?
                 let errorDesc = queryMap.error_description
-                console.log('Error getting authCode, is Azure application registered correctly?')
+                console.log('Erreur lors de l obtention du code d authentification, l application Azure est-elle enregistrée correctement?')
                 console.log(error)
                 console.log(errorDesc)
                 console.log('Full query map: ', queryMap)
@@ -430,8 +430,8 @@ ipcRenderer.on(MSFT_OPCODE.REPLY_LOGIN, (_, ...arguments_) => {
                         // Uh oh.
                         msftLoginLogger.error('Unhandled error during login.', displayableError)
                         actualDisplayableError = {
-                            title: 'Unknown Error During Login',
-                            desc: 'An unknown error has occurred. Please see the console for details.'
+                            title: 'Erreur inconnue lors de la connexion',
+                            desc: 'Une erreur inconnue s est produite. Veuillez consulter la console pour plus de détails.'
                         }
                     }
 
@@ -483,10 +483,10 @@ function bindAuthAccountLogOut(){
             if(Object.keys(ConfigManager.getAuthAccounts()).length === 1){
                 isLastAccount = true
                 setOverlayContent(
-                    'Warning<br>This is Your Last Account',
-                    'In order to use the launcher you must be logged into at least one account. You will need to login again after.<br><br>Are you sure you want to log out?',
-                    'I\'m Sure',
-                    'Cancel'
+                    'Attention<br>Ceci est votre dernier compte',
+                    'Pour utiliser le lanceur, vous devez être connecté à au moins un compte. Vous devrez vous reconnecter après.<br><br>Êtes-vous sûr de vouloir vous déconnecter?',
+                    'je suis sur',
+                    'Annuler'
                 )
                 setOverlayHandler(() => {
                     processLogOut(val, isLastAccount)
@@ -555,8 +555,8 @@ ipcRenderer.on(MSFT_OPCODE.REPLY_LOGOUT, (_, ...arguments_) => {
 
             // Unexpected error.
             setOverlayContent(
-                'Something Went Wrong',
-                'Microsoft logout failed. Please try again.',
+                'Quelque chose s est mal passé',
+                'La déconnexion de Microsoft a échoué. Veuillez réessayer.',
                 'OK'
             )
             setOverlayHandler(() => {
@@ -570,7 +570,7 @@ ipcRenderer.on(MSFT_OPCODE.REPLY_LOGOUT, (_, ...arguments_) => {
         const isLastAccount = arguments_[2]
         const prevSelAcc = ConfigManager.getSelectedAccount()
 
-        msftLogoutLogger.info('Logout Successful. uuid:', uuid)
+        msftLogoutLogger.info('Déconnexion réussie. uuid:', uuid)
         
         AuthManager.removeMicrosoftAccount(uuid)
             .then(() => {
@@ -901,9 +901,9 @@ function bindDropinModsRemoveButton(){
                 document.getElementById(fullName).remove()
             } else {
                 setOverlayContent(
-                    `Failed to Delete<br>Drop-in Mod ${fullName}`,
-                    'Make sure the file is not in use and try again.',
-                    'Okay'
+                    `Échec de la suppression<br>du Module d'insertion ${fullName}`,
+                    'Assurez-vous que le fichier n est pas utilisé et réessayez.',
+                    'Ok'
                 )
                 setOverlayHandler(null)
                 toggleOverlay(true)
