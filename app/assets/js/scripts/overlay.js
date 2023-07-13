@@ -252,7 +252,7 @@ function setAccountListingHandlers(){
     const listings = Array.from(document.getElementsByClassName('accountListing'))
     listings.map((val) => {
         val.onclick = e => {
-            if(val.hasAttribute('selected')){
+            if(val.hasAttribute('select')){
                 return
             }
             const cListings = document.getElementsByClassName('accountListing')

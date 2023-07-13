@@ -244,7 +244,7 @@ const refreshServerStatus = async (fade = false) => {
     const serv = (await DistroAPI.getDistribution()).getServerById(ConfigManager.getSelectedServer())
 
     let pLabel = 'SERVEUR'
-    let pVal = 'Offline'
+    let pVal = 'Fermer'
 
     try {
 
@@ -317,7 +317,7 @@ async function asyncSystemScan(effectiveJavaOptions, launchAfter = true){
         // If the result is null, no valid Java installation was found.
         // Show this information to the user.
         setOverlayContent(
-            'No Compatible<br>Java Installation Found',
+            'Pas de version Java<br>compatible trouvé',
             `Pour rejoindre WesterosCraft, vous avez besoin d'une version 64-bit de Java ${effectiveJavaOptions.suggestedMajor}. Voullez vous installer une copie?`,
             'Installer Java',
             'Installer Manuellement'
@@ -339,8 +339,8 @@ async function asyncSystemScan(effectiveJavaOptions, launchAfter = true){
                 setOverlayContent(
                     'Java est requis<br>pour le lancement',
                     `une version 64-bit de Java valide ${effectiveJavaOptions.suggestedMajor} est requis au lancement.<br><br>Veuillez vous réferer à <a href="https://github.com/dscalzi/HeliosLauncher/wiki/Java-Management#manually-installing-a-valid-version-of-java">Java Management Guide</a> pour les instructions d'installations manuelles de Java.`,
-                    'I Understand',
-                    'Go Back'
+                    'Je comprend',
+                    'Retour'
                 )
                 setOverlayHandler(() => {
                     toggleLaunchArea(false)
@@ -351,7 +351,7 @@ async function asyncSystemScan(effectiveJavaOptions, launchAfter = true){
 
                     asyncSystemScan(effectiveJavaOptions, launchAfter)
                 })
-                $('#overlayContent').fadeIn(250)
+                $('#contenu de l overlay').fadeIn(250)
             })
         })
         toggleOverlay(true, true)
@@ -396,9 +396,9 @@ async function downloadJava(effectiveJavaOptions, launchAfter = true) {
     setDownloadPercentage(100)
 
     if(received != asset.size) {
-        loggerLanding.warn(`Java Download: Expected ${asset.size} bytes but received ${received}`)
+        loggerLanding.warn(`télechargement Java: Attendu ${asset.size} octets mais reçu ${received}`)
         if(!await validateLocalFile(asset.path, asset.algo, asset.hash)) {
-            log.error(`Hashes do not match, ${asset.id} may be corrupted.`)
+            log.error(`les Hashes ne correspondes pas, ${asset.id} peut-être corompu.`)
             // Don't know how this could happen, but report it.
             throw new Error('les fichiers de Downloaded JDK son peut-être corompu.')
         }
@@ -465,7 +465,7 @@ async function dlAsync(login = true) {
         onDistroRefresh(distro)
     } catch(err) {
         loggerLaunchSuite.error('Impossible de rafraichir la distribution index.', err)
-        showLaunchFailure('Fatal Error', 'Could not load a copy of the distribution index. See the console (CTRL + Shift + i) for more details.')
+        showLaunchFailure('Erreur Fatal', 'impossible de charger une copie de l index de distribution. Voir la console (CTRL + Shift + i) pour plus de détails.')
         return
     }
 
@@ -498,8 +498,8 @@ async function dlAsync(login = true) {
     })
     fullRepairModule.childProcess.on('fermer', (code, _signal) => {
         if(code !== 0){
-            loggerLaunchSuite.error(`Full Repair Module exited with code ${code}, assuming error.`)
-            showLaunchFailure('Erraur durant le lancement', 'See console (CTRL + Shift + i) for more details.')
+            loggerLaunchSuite.error(`Module de réparation complet quitté avec le code ${code}, supposer une erreur.`)
+            showLaunchFailure('Erreur durant le lancement', 'voir la console (CTRL + Shift + i) pour plus de détails.')
         }
     })
 
@@ -596,15 +596,15 @@ async function dlAsync(login = true) {
             if(SERVER_JOINED_REGEX.test(data)){
                 DiscordWrapper.updateDetails('Explorer Realm!')
             } else if(GAME_JOINED_REGEX.test(data)){
-                DiscordWrapper.updateDetails('Sailing to Westeros!')
+                DiscordWrapper.updateDetails('Navigation vers Westeros!')
             }
         }
 
         const gameErrorListener = function(data){
             data = data.trim()
-            if(data.indexOf('Could not find or load main class net.minecraft.launchwrapper.Launch') > -1){
-                loggerLaunchSuite.error('Game launch failed, LaunchWrapper was not downloaded properly.')
-                showLaunchFailure('Error During Launch', 'The main file, LaunchWrapper, failed to download properly. As a result, the game cannot launch.<br><br>To fix this issue, temporarily turn off your antivirus software and launch the game again.<br><br>If you have time, please <a href="https://github.com/dscalzi/HeliosLauncher/issues">submit an issue</a> and let us know what antivirus software you use. We\'ll contact them and try to straighten things out.')
+            if(data.indexOf('Impossible de trouver ou de charger la classe principale net.minecraft.launchwrapper.Launch') > -1){
+                loggerLaunchSuite.error('Le lancement du jeu a échoué, LaunchWrapper n a pas été téléchargé correctement.')
+                showLaunchFailure('Erreur lors du lancement', 'Le fichier principal, LaunchWrapper, n a pas pu être téléchargé correctement. Par conséquent, le jeu ne peut pas se lancer.<br><br>Pour résoudre ce problème, désactivez temporairement votre logiciel antivirus et relancez le jeu.<br><br>Si vous avez le temps, s il vous plaît <a href="https://github.com/dscalzi/HeliosLauncher/issues">signaler un problème</a> et dites-nous quel logiciel antivirus vous utilisez. Nous allons les contacter et essayer d arranger les choses.')
             }
         }
 
@@ -616,7 +616,7 @@ async function dlAsync(login = true) {
             proc.stdout.on('data', tempListener)
             proc.stderr.on('data', gameErrorListener)
 
-            setLaunchDetails('Fini. Apprécier le serveur!')
+            setLaunchDetails('terminer. Apprécier le serveur!')
 
             // Init Discord Hook
             if(distro.rawDistribution.discord != null && serv.rawServerdiscord != null){
@@ -686,8 +686,8 @@ function slide_(up){
         landingContainer.style.background = 'rgba(0, 0, 0, 0.50)'
         setTimeout(() => {
             if(newsGlideCount === 1){
-                lCLCenter.style.transition = 'none'
-                newsBtn.style.transition = 'none'
+                lCLCenter.style.transition = 'aucun'
+                newsBtn.style.transition = 'aucun'
             }
             newsGlideCount--
         }, 2000)
@@ -740,7 +740,7 @@ let newsLoadingListener = null
  */
 function setNewsLoading(val){
     if(val){
-        const nLStr = 'Vérification des actualitées'
+        const nLStr = 'Vérification de l actualité'
         let dotStr = '..'
         nELoadSpan.innerHTML = nLStr + dotStr
         newsLoadingListener = setInterval(() => {
@@ -967,7 +967,7 @@ async function loadNews(){
 
     const distroData = await DistroAPI.getDistribution()
     if(!distroData.rawDistribution.rss) {
-        loggerLanding.debug('No RSS feed provided.')
+        loggerLanding.debug('Aucun flux RSS fourni.')
         return null
     }
 
@@ -986,7 +986,7 @@ async function loadNews(){
                     const el = $(items[i])
 
                     // Resolve date.
-                    const date = new Date(el.find('pubDate').text()).toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric'})
+                    const date = new Date(el.find('pubDate').text()).toLocaleDateString('en-FR', {month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric'})
 
                     // Resolve comments.
                     let comments = el.find('slash\\:comments').text() || '0'
